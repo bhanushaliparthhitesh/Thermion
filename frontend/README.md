@@ -1,20 +1,18 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Thermion — AI-Powered Data-Center Cooling
 
-# Run and deploy your AI Studio app
+Thermion makes AI-driven cooling decisions safe, transparent, and explainable. A digital twin and PPO reinforcement-learning agent choose AIR, LIQUID, or HYBRID cooling for each timestep. Cedar safety checks guard the proposed action, OpenSearch stores the complete decision trace, and a Strands operations agent explains decisions in plain language.
 
-This contains everything you need to run your app locally.
+The frontend is the operator console: it displays the logged telemetry and reward context, Cedar and safety verdicts, pipeline status, and explanations from the operations agent. It does not simulate decisions or provide mock backend data.
 
-View your app in AI Studio: https://ai.studio/apps/0c6a70fe-e0d2-43e6-b513-b77b079eed32
+## Run locally
 
-## Run Locally
+Prerequisite: Node.js.
 
-**Prerequisites:**  Node.js
+```bash
+npm install
+npm run dev
+```
 
+The Vite frontend opens at `http://localhost:5173/`.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+The frontend calls the local backend API at `http://127.0.0.1:3000` by default. Configure `VITE_API_BASE_URL` if your teammate exposes the API at another address. The backend is intended to run locally with SAM/LocalStack and OpenSearch; the frontend will show a connection state until those services are available.
