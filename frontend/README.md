@@ -15,4 +15,4 @@ npm run dev
 
 The Vite frontend opens at `http://localhost:5173/`.
 
-The frontend calls the local backend API at `http://127.0.0.1:3000` by default. Configure `VITE_API_BASE_URL` if your teammate exposes the API at another address. The backend is intended to run locally with SAM/LocalStack and OpenSearch; the frontend will show a connection state until those services are available.
+The frontend calls the local backend API at `http://127.0.0.1:3000` by default.
