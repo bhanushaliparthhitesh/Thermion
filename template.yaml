@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Local-first cooling pipeline orchestrator (First Commit — Build It track).
+  Deployed and tested entirely with `sam local` + LocalStack — no AWS account.
+
+Globals:
+  Function:
+    Timeout: 60
+    Runtime: python3.12
+    MemorySize: 512
+
+Resources:
+  CoolingOrchestratorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: run_local.lambda_handler
+      Environment:
+        Variables:
+          # host.docker.internal lets the Lambda container reach the
+          # OpenSearch container started by docker-compose.yml
+          OPENSEARCH_HOST: host.docker.internal
+          OPENSEARCH_PORT: "9200"
+      Events:
+        RunApi:
+          Type: Api
+          Properties:
+            Path: /run
+            Method: post
+
+Outputs:
+  RunApiUrl:
+    Description: "Local API Gateway endpoint (via sam local start-api)"
+    Value: "http://127.0.0.1:3000/run"
