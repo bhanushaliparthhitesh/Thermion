@@ -1,0 +1,6 @@
+{
+  "name": "Thermion — AI-Powered Data-Center Cooling",
+  "description": "Predict facility thermal drift, recommend efficient cooling strategies, and monitor real-time data center telemetry with Cedar safety invariants.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
