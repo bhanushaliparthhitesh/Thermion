@@ -1,0 +1,18 @@
+# New dependencies for the OpenSearch + Cedar + Strands additions.
+# Add these to your existing requirements.txt (don't overwrite it).
+
+fastapi
+uvicorn
+pydantic
+xgboost
+numpy
+pandas
+scikit-learn
+stable-baselines3
+gymnasium
+joblib
+
+opensearch-py>=2.6
+cedarpy>=4.8
+strands-agents>=0.1
+strands-agents-tools>=0.1
