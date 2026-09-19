@@ -600,17 +600,14 @@ def get_rl_state(
     liq_t_out  = liquid_out.get("avg_outlet_temp")    or 0.0
     # Raw efficiency model output is not normalized.
     # Convert to RL-friendly [0,1] scale before exposing state.
-    cool_eff = liquid_out.get(
-    "cooling_efficiency",
-    0.0,
-   )
+    cool_eff   = liquid_out.get("cooling_efficiency") or 0.5
 
     return {
-    "temperature_deviation": float(temp_dev),
-    "water_usage": float(water_use),
-    "liquid_outlet_temp": float(liq_t_out),
-    "cooling_efficiency": float(cool_eff),
-   }
+        "temperature_deviation": float(temp_dev),
+        "water_usage": float(water_use),
+        "liquid_outlet_temp": float(liq_t_out),
+        "cooling_efficiency": float(cool_eff),
+    }
 
 
 

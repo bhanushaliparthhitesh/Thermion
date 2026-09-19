@@ -444,6 +444,29 @@ class SafetyFilter:
 
         return SAFE_FALLBACK_ACTION
 
+    def select_fallback_action(
+        self,
+        proposed_action: int,
+        state: Dict[str, float],
+        reason: str = "safety_or_cedar_intervention",
+    ) -> Tuple[int, str]:
+        """
+        Public entry point to determine the safe fallback action.
+
+        Reuses the existing safe alternative heuristic based on
+        temperature deviation limit and liquid outlet temp max.
+
+        Returns
+        -------
+        (fallback_action: int, fallback_label: str)
+        """
+        violations = self._collect_violations(state)
+        # If proposed action itself is invalid, default to SAFE_FALLBACK_ACTION
+        valid_proposed = proposed_action if proposed_action in _ACTION_LABELS else SAFE_FALLBACK_ACTION
+        fallback_action = self._choose_safe_alternative(valid_proposed, violations, state)
+        fallback_label = _ACTION_LABELS.get(fallback_action, "AIR")
+        return fallback_action, fallback_label
+
 
 # ---------------------------------------------------------------------------
 # Module-level helpers

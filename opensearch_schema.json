@@ -11,10 +11,27 @@
           "cooling_efficiency": { "type": "float" }
         }
       },
-      "action": { "type": "keyword" },
-      "action_label": { "type": "keyword" },
-      "reward_breakdown": { "type": "object", "enabled": true },
-      "strategy_reason": { "type": "text" },
+      "digital_twin_prediction": {
+        "properties": {
+          "outlet_temperature": { "type": "float" },
+          "energy_cost": { "type": "float" },
+          "temperature_deviation": { "type": "float" },
+          "water_usage": { "type": "float" },
+          "avg_outlet_temp": { "type": "float" },
+          "thermal_stability": { "type": "float" },
+          "cooling_efficiency": { "type": "float" },
+          "water_savings_percent": { "type": "float" },
+          "energy_savings_percent": { "type": "float" }
+        }
+      },
+      "ppo_action": { "type": "integer" },
+      "ppo_action_label": { "type": "keyword" },
+      "cedar_verdict": {
+        "properties": {
+          "allowed": { "type": "boolean" },
+          "reason": { "type": "text" }
+        }
+      },
       "safety_filter_verdict": {
         "properties": {
           "intervention_applied": { "type": "boolean" },
@@ -23,12 +40,23 @@
           "risk_score": { "type": "float" }
         }
       },
-      "cedar_verdict": {
+      "final_action": { "type": "integer" },
+      "final_action_label": { "type": "keyword" },
+      "fallback_applied": { "type": "boolean" },
+      "fallback_reason": { "type": "text" },
+      "metrics": {
         "properties": {
-          "allowed": { "type": "boolean" },
-          "reason": { "type": "text" }
+          "temperature": { "type": "float" },
+          "energy": { "type": "float" },
+          "water": { "type": "float" },
+          "risk_score": { "type": "float" },
+          "total_reward": { "type": "float" }
         }
-      }
+      },
+      "reward_breakdown": { "type": "object", "enabled": true },
+      "strategy_reason": { "type": "text" },
+      "action": { "type": "keyword" },
+      "action_label": { "type": "keyword" }
     }
   }
 }

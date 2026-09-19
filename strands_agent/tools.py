@@ -1,51 +1,45 @@
 """
-Strands tool functions for the ops/explainability agent. Both tools only
-read from OpenSearch — they never touch the ML pipeline or the model
-directly, so the agent can't act outside what's already been logged.
+Strands tool functions for the ops/explainability agent.
+Tools read logged decisions from OpenSearch (or decision_logger buffer).
+Never invents decisions or touches the ML model directly.
 """
-import os
+from __future__ import annotations
 
-from opensearchpy import OpenSearch
+from typing import Any, Dict, List
 from strands import tool
 
-INDEX_NAME = "cooling-decisions"
-
-_client = OpenSearch(
-    hosts=[{
-        "host": os.environ.get("OPENSEARCH_HOST", "localhost"),
-        "port": int(os.environ.get("OPENSEARCH_PORT", 9200)),
-    }],
-    use_ssl=False,
-)
+from decision_logger import get_decision, get_recent_decisions
 
 
 @tool
-def query_recent_decisions(n: int = 5) -> list[dict]:
+def query_recent_decisions(n: int = 5) -> List[Dict[str, Any]]:
     """Return the last n logged cooling decisions, most recent first."""
-    resp = _client.search(
-        index=INDEX_NAME,
-        body={"size": n, "sort": [{"timestamp": "desc"}]},
-    )
-    return [hit["_source"] for hit in resp["hits"]["hits"]]
+    return get_recent_decisions(n)
 
 
 @tool
-def explain_decision(step_id: int) -> dict:
-    """Fetch one decision by step_id and return its strategy plus safety/Cedar verdicts."""
-    resp = _client.search(
-        index=INDEX_NAME,
-        body={"query": {"term": {"step_id": step_id}}, "size": 1},
-    )
-    hits = resp["hits"]["hits"]
-    if not hits:
-        return {"found": False, "reason": f"no logged decision for step {step_id}"}
+def explain_decision(step_id: int) -> Dict[str, Any]:
+    """
+    Fetch one decision by step_id and return its complete factual details
+    including state, PPO proposed action, Cedar verdict, final executed action,
+    fallback status, and physical metrics.
+    """
+    doc = get_decision(step_id)
+    if not doc:
+        return {"found": False, "reason": f"No logged decision found for step {step_id}"}
 
-    doc = hits[0]["_source"]
     return {
         "found": True,
-        "step_id": step_id,
-        "action_label": doc["action_label"],
+        "step_id": doc.get("step_id", step_id),
+        "state": doc.get("state", {}),
+        "digital_twin_prediction": doc.get("digital_twin_prediction", {}),
+        "ppo_action": doc.get("ppo_action_label") or doc.get("action_label", "UNKNOWN"),
+        "final_action": doc.get("final_action_label") or doc.get("action_label", "UNKNOWN"),
+        "fallback_applied": doc.get("fallback_applied", False),
+        "fallback_reason": doc.get("fallback_reason"),
+        "cedar_verdict": doc.get("cedar_verdict", {}),
+        "safety_verdict": doc.get("safety_filter_verdict", {}),
+        "metrics": doc.get("metrics", {}),
+        "reward_breakdown": doc.get("reward_breakdown", {}),
         "strategy_reason": doc.get("strategy_reason"),
-        "safety_verdict": doc["safety_filter_verdict"],
-        "cedar_verdict": doc["cedar_verdict"],
     }
