@@ -2,7 +2,8 @@
 
 ### AI-Driven Data Center Cooling Optimization Platform
 
-![Thermion homepage](./assets/hero-homepage.png)
+<img width="1917" height="862" alt="Screenshot 2026-09-21 135022" src="https://github.com/user-attachments/assets/a5e48a21-d35b-4645-95ed-0e67778c836e" />
+
 
 Thermion is an AI-driven data center cooling optimization platform designed to reduce unnecessary energy and water consumption while maintaining hardware thermal safety.
 
@@ -64,7 +65,8 @@ If the decision violates a safety constraint, it is rejected and Thermion activa
 
 ## Live Dashboard
 
-![Thermion live dashboard](./assets/live-dashboard.png)
+<img width="1310" height="722" alt="Screenshot 2026-09-21 135040" src="https://github.com/user-attachments/assets/a403b3c1-f380-4fd8-a396-05bb3191285f" />
+
 
 The dashboard surfaces the core live state of the system at a glance: Facility PUE, hot-aisle temperature, the current approved cooling mode, and a running Cedar Safety Guard violation counter. Below that sits a real-time zone heatmap of the facility alongside a plain-language rationale for the most recent decision — including confidence, predicted savings, and latency — backed by an immutable, hash-verified decision ledger.
 
@@ -72,7 +74,7 @@ The dashboard surfaces the core live state of the system at a glance: Facility P
 
 ## The Pipeline
 
-![Thermion five-step pipeline](./assets/pipeline-steps.png)
+ <img width="1882" height="772" alt="Screenshot 2026-09-21 135330" src="https://github.com/user-attachments/assets/2bf906c4-046c-4515-b6aa-f65c2759b82d" />
 
 Every optimization cycle runs the same strictly deterministic, five-step sequence, continuously, every 30 seconds:
 
@@ -222,7 +224,7 @@ Thermion uses Strands Agents to provide explanations based on the actual decisio
 
 ## PartyRock Demo
 
-![Thermion PartyRock demo](./assets/partyrock-demo.png)
+ <img width="1648" height="863" alt="Screenshot 2026-09-21 140927" src="https://github.com/user-attachments/assets/58038d96-41c6-48c5-b0fe-022540d67291" />
 
 Alongside the full local AWS stack, Thermion has a lightweight, zero-setup demonstration built on **Amazon PartyRock**. It recreates the same decision sequence — telemetry, prediction, decision, safety check, and explanation — as a chained set of generative widgets, so anyone can explore how Thermion thinks without running any code locally.
 
